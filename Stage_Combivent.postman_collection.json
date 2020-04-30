@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "0719ea60-a0cf-45df-84c9-559fbf8903fa",
+		"name": "Stage_Combivent",
+		"description": "To register a user in combivent stage",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Combivent Registartion Stage",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c8d6863a-895e-4471-85db-32123c5dc045",
+						"exec": [
+							"const emailID =  \"icmayur\" + parseInt(Math.random() * 1000) + \"@gmail.com\";",
+							"pm.globals.set(\"Combiventemail\", emailID);",
+							"const copaycard =  parseInt(Math.random() * 100000000) + \"A\";",
+							"pm.globals.set(\"copaycard\",copaycard)",
+							"console.log(emailID);",
+							"console.log(copaycard);",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "c9bc681f-94e7-4336-945e-da2aedd7ceeb",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"var jsonObject = xml2Json(responseBody);",
+							"console.log(jsonObject.registerUser.status.message);",
+							"",
+							"const success = jsonObject.registerUser.status.message;",
+							"",
+							"",
+							"pm.test(\"User is successfully created\", function () {",
+							"   ",
+							"    pm.expect(success).to.eql(\"Success\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/xml"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<registerUser>\r\n\r\n\t<programID>120</programID>\r\n\r\n\t<medication>COMBIVENT</medication>\r\n\r\n\t<indication>COPD</indication>\r\n\r\n\t<firstName>Mayur</firstName>\r\n\r\n\t<lastName>Bagmar</lastName>\r\n\r\n\t<email>{{Combiventemail}}</email>\r\n\r\n\t<zipcode>06854</zipcode>\r\n\r\n\t<dob>02-26-1981</dob>\r\n\r\n\t<savingsCardId>{{copaycard}}</savingsCardId>\r\n\r\n</registerUser>"
+				},
+				"url": {
+					"raw": "https://stage-respipoints.healthprize.com/rest/registerCombiventUser?clientId=stage-respipoints.healthprize.com&requestDateTime=2019-12-06T08:24:30-04:00&signature=a4aec258976c78c72416338e5002e460",
+					"protocol": "https",
+					"host": [
+						"stage-respipoints",
+						"healthprize",
+						"com"
+					],
+					"path": [
+						"rest",
+						"registerCombiventUser"
+					],
+					"query": [
+						{
+							"key": "clientId",
+							"value": "stage-respipoints.healthprize.com"
+						},
+						{
+							"key": "requestDateTime",
+							"value": "2019-12-06T08:24:30-04:00"
+						},
+						{
+							"key": "signature",
+							"value": "a4aec258976c78c72416338e5002e460"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Combivent Registartion Stage - Same Copay Card",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d5f754ad-25d7-40c2-ad3f-d6c88f0b733b",
+						"exec": [
+							"const emailID =  \"icmayur\" + parseInt(Math.random() * 1000) + \"@gmail.com\";",
+							"pm.globals.set(\"Combiventemail\", emailID);",
+							"const copaycard =  parseInt(Math.random() * 100000000) + \"A\";",
+							"pm.globals.set(\"copaycard\",copaycard)",
+							"console.log(emailID);",
+							"console.log(copaycard);",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "9daabbda-e8af-41e2-ace1-a224fb861e64",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"",
+							"var jsonObject = xml2Json(responseBody);",
+							"console.log(jsonObject.registerUser.status.message);",
+							"",
+							"/*const message = jsonObject.registerUser.status.message;",
+							"",
+							"",
+							"pm.test(\"User is successfully created\", function () {",
+							"   ",
+							"    pm.expect(message).to.eql(\"Copay card is in use\");",
+							"});*/",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/xml"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<registerUser>\r\n\r\n\t<programID>120</programID>\r\n\r\n\t<medication>COMBIVENT</medication>\r\n\r\n\t<indication>COPD</indication>\r\n\r\n\t<firstName>Mayur</firstName>\r\n\r\n\t<lastName>Bagmar</lastName>\r\n\r\n\t<email>{{Combiventemail}}</email>\r\n\r\n\t<zipcode>06854</zipcode>\r\n\r\n\t<dob>02-26-1981</dob>\r\n\r\n\t<savingsCardId>123456789</savingsCardId>\r\n\r\n</registerUser>"
+				},
+				"url": {
+					"raw": "https://stage-respipoints.healthprize.com/rest/registerCombiventUser?clientId=stage-respipoints.healthprize.com&requestDateTime=2019-12-06T08:24:30-04:00&signature=a4aec258976c78c72416338e5002e460",
+					"protocol": "https",
+					"host": [
+						"stage-respipoints",
+						"healthprize",
+						"com"
+					],
+					"path": [
+						"rest",
+						"registerCombiventUser"
+					],
+					"query": [
+						{
+							"key": "clientId",
+							"value": "stage-respipoints.healthprize.com"
+						},
+						{
+							"key": "requestDateTime",
+							"value": "2019-12-06T08:24:30-04:00"
+						},
+						{
+							"key": "signature",
+							"value": "a4aec258976c78c72416338e5002e460"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
