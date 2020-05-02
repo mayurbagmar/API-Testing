@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "Combivent Registartion Stage",
+			"name": "Combivent Registartion Stage - New Copay Card",
 			"event": [
 				{
 					"listen": "prerequest",
